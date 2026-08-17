@@ -342,6 +342,59 @@
       .proof-grid { grid-template-columns: 1fr; }
       .principles-grid { grid-template-columns: 1fr; }
     }
+    /* ── THUMBNAILS ── */
+    .thumb-strip {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .thumb-strip img {
+      width: calc(25% - 6px);
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: opacity 0.15s, box-shadow 0.15s;
+    }
+    .thumb-strip img:hover {
+      opacity: 0.85;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(6,27,49,0.92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 6px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      color: rgba(255,255,255,0.7);
+      font-size: 28px;
+      cursor: pointer;
+      line-height: 1;
+      background: none;
+      border: none;
+      padding: 4px 8px;
+    }
+    .lightbox-close:hover { color: #fff; }
+
   </style>
 </head>
 <body>
@@ -389,6 +442,12 @@
           </div>
         </div>
         <p class="proof-detail">React + Supabase realtime · two interfaces · drag-to-reorder · disconnection detection · used daily.</p>
+        <div class="thumb-strip">
+          <img src="assets/waiting-room/display.png" alt="Public display" onclick="openLightbox(this.src)">
+          <img src="assets/waiting-room/tablet.png" alt="Staff tablet" onclick="openLightbox(this.src)">
+          <img src="assets/waiting-room/admin.png" alt="Admin portal" onclick="openLightbox(this.src)">
+          <img src="assets/waiting-room/launch.png" alt="Launch screen" onclick="openLightbox(this.src)">
+        </div>
       </div>
 
       <!-- Intake Launcher -->
@@ -488,6 +547,25 @@
   <footer>
     Jeff Beyer · Systems Developer
   </footer>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 
 </body>
 </html>
